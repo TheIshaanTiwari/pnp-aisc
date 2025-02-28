@@ -36,9 +36,9 @@ export default function RiskMetrics() {
   const calculateGeographicConcentration = () => {
     if (warehouses.length < 2) return 0
     
-    // Simple calculation based on unique lat/lng pairs
+    // Simple calculation based on unique city locations
     const uniqueLocations = new Set(
-      warehouses.map((w: Warehouse) => `${w.location.lat.toFixed(2)},${w.location.lng.toFixed(2)}`)
+      warehouses.map((w: Warehouse) => w.city)
     )
     return 1 - uniqueLocations.size / warehouses.length
   }
