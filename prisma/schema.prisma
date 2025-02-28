@@ -1,0 +1,89 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  previewFeatures = ["jsonProtocol"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum TransportMode {
+  TRUCK
+  RAIL
+  AIR
+  SEA
+}
+
+model Supplier {
+  id               String         @id @default(uuid())
+  name             String
+  latitude         Float
+  longitude        Float
+  address          String
+  contactPerson    String
+  email            String
+  phone            String
+  reliabilityRating Float
+  leadTime         Int
+  qualityRating    Float
+  inventoryItems   InventoryItem[]
+  routes           Route[]       @relation("SupplierRoutes")
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+}
+
+model Warehouse {
+  id              String         @id @default(uuid())
+  name            String
+  latitude        Float
+  longitude       Float
+  address         String
+  capacity        Int
+  utilizationRate Float
+  operatingCosts  Float
+  inventoryItems  InventoryItem[]
+  routes          Route[]       @relation("WarehouseRoutes")
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+}
+
+model Route {
+  id            String       @id @default(uuid())
+  name          String
+  origin        String
+  destination   String
+  distance      Float
+  transportMode TransportMode
+  transitTime   Int
+  cost          Float
+  reliability   Float
+  supplier      Supplier     @relation("SupplierRoutes", fields: [origin], references: [id])
+  warehouse     Warehouse    @relation("WarehouseRoutes", fields: [destination], references: [id])
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+}
+
+model InventoryItem {
+  id             String    @id @default(uuid())
+  name           String
+  sku            String    @unique
+  category       String
+  quantity       Int
+  reorderPoint   Int
+  unitPrice      Float
+  supplyRisk     Float
+  businessImpact Float
+  supplier       Supplier  @relation(fields: [supplierId], references: [id])
+  supplierId     String
+  warehouse      Warehouse @relation(fields: [warehouseId], references: [id])
+  warehouseId    String
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+}

@@ -10,15 +10,59 @@
   --foreground: #171717;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+.dark {
+  --background: #0a0a0a;
+  --foreground: #ededed;
 }
 
 body {
   color: var(--foreground);
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* ReactFlow Dark Mode Styles */
+.dark-flow {
+  background-color: #1f2937;
+}
+
+.dark-flow .react-flow__node {
+  color: #e5e7eb;
+}
+
+.dark-flow .react-flow__edge-path {
+  stroke: #4b5563;
+}
+
+.dark-flow .react-flow__edge-text {
+  fill: #e5e7eb;
+}
+
+.dark-controls {
+  background-color: #374151 !important;
+  border-color: #4b5563 !important;
+}
+
+.dark-controls button {
+  background-color: #4b5563 !important;
+  border-color: #6b7280 !important;
+  color: #e5e7eb !important;
+}
+
+.dark-controls button:hover {
+  background-color: #6b7280 !important;
+}
+
+.dark-minimap {
+  background-color: #374151 !important;
+  border-color: #4b5563 !important;
+}
+
+.dark-minimap .react-flow__minimap-mask {
+  fill: #4b5563 !important;
+}
+
+.dark-minimap .react-flow__minimap-node {
+  fill: #6b7280 !important;
+  stroke: #9ca3af !important;
 }
